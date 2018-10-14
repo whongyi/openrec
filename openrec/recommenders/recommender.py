@@ -296,12 +296,13 @@ class _RecommenderGraph(object):
 
 class Recommender(object):
 
-    def __init__(self, _sentinel=None, init_model_dir=None, save_model_dir=None, train=True, serve=False):
+    def __init__(self, _sentinel=None, init_model_dir=None, save_model_dir=None, save_model_max=10, train=True, serve=False):
 
         self._train = train
         self._serve = serve
         self._init_model_dir = init_model_dir
         self._save_model_dir = save_model_dir
+        self._save_model_max = save_model_max
         
         self._flag_updated = False
         self._flag_isbuilt = False
@@ -481,7 +482,7 @@ class Recommender(object):
                 config.gpu_options.allow_growth=True
                 self._tf_train_sess = tf.Session(config=config)
                 self._tf_train_sess.run(tf.global_variables_initializer())
-                self._tf_train_saver = tf.train.Saver(tf.global_variables(), max_to_keep=10)
+                self._tf_train_saver = tf.train.Saver(tf.global_variables(), max_to_keep=self._save_model_max)
 
         if self._serve:
             self.servegraph.build()
@@ -490,7 +491,7 @@ class Recommender(object):
                 config.gpu_options.allow_growth=True
                 self._tf_serve_sess = tf.Session(config=config)
                 self._tf_serve_sess.run(tf.global_variables_initializer())
-                self._tf_serve_saver = tf.train.Saver(tf.global_variables(), max_to_keep=10)
+                self._tf_serve_saver = tf.train.Saver(tf.global_variables(), max_to_keep=self._save_model_max)
         
         if self._init_model_dir is not None:
             self.restore(save_model_dir=self._init_model_dir,

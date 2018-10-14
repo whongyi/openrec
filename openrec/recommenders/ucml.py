@@ -4,7 +4,7 @@ from openrec.modules.interactions import PairwiseEuDist
 from openrec.modules.extractions import LatentFactor
 
 def UCML(batch_size, dim_user_embed, dim_item_embed, total_users, total_items, l2_reg=None,
-    init_model_dir=None, save_model_dir='Recommender/', train=True, serve=False):
+    init_model_dir=None, save_model_dir='Recommender/', save_model_max=10, train=True, serve=False):
     
     rec = BPR(batch_size=batch_size, 
               dim_user_embed=dim_user_embed,
@@ -13,7 +13,8 @@ def UCML(batch_size, dim_user_embed, dim_item_embed, total_users, total_items, l
               total_items=total_items, 
               l2_reg=l2_reg,
               init_model_dir=init_model_dir, 
-              save_model_dir=save_model_dir, 
+              save_model_dir=save_model_dir,
+              save_model_max=save_model_max,
               train=train, 
               serve=serve)
     
@@ -68,4 +69,3 @@ def UCML(batch_size, dim_user_embed, dim_item_embed, total_users, total_items, l
                        scope='PairwiseEuDist')
     
     return rec
-        
