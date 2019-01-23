@@ -145,3 +145,12 @@ class Dataset(object):
     def total_items(self):
         
         return self._total_items
+
+
+    def random_positive_record(self, user_id):
+        item_list = self.sample_positive_items(user_id, num_samples=1)
+        if len(item_list) == 0:
+            return None
+        if user_id in self._index_store['positive']:
+            return self._raw_data[self._index_store['positive'][user_id][item_list[0]]]
+        return None
