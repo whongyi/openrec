@@ -44,6 +44,8 @@ class EvalManager(object):
         for evaluator in self.evaluators:
             if evaluator.etype == 'rank':
                 results[evaluator.name] = evaluator.compute(rank_above=rank_above, negative_num=negative_num)
+            elif evaluator.etype == 'visual':
+                results[evaluator.name] = evaluator.compute(pos_samples, predictions)
 
         return results
 
