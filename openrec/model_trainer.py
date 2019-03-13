@@ -50,7 +50,7 @@ class ModelTrainer(object):
                                                   excl_pos_samples=[],
                                                 predictions=np.concatenate(all_scores, axis=0))
             completed_user_count += 1
-            print('...Evaluated %d users' % completed_user_count, end='\r')
+            # print('...Evaluated %d users' % completed_user_count, end='\r')
             for key in result:
                 metric_results[key].append(result[key])
             pos_items, batch_data = eval_sampler.next_batch()
@@ -74,7 +74,7 @@ class ModelTrainer(object):
             loss = self._train_iter_func(self._model, batch_data)
             acc_loss += loss
             self._trained_it += 1
-            print('..Trained for %d iterations.' % _iter, end='\r')
+            #print('..Trained for %d iterations.' % _iter, end='\r')
             if (_iter + 1) % save_iter == 0:
                 self._model.save(global_step=self._trained_it)
                 print(' '*len('..Trained for %d iterations.' % _iter), end='\r')
